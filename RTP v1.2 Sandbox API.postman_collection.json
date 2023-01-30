@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "b9e26c75-1e25-43d7-824d-999fb25db29b",
+		"name": "RTP v1.2 Sandbox API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6566588"
+	},
+	"item": [
+		{
+			"name": "RTP v1.2 Sandbox API",
+			"item": [
+				{
+					"name": "Step1.OAuth Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://sandbox.usbank.com/auth/oauth2/v1/token",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"usbank",
+								"com"
+							],
+							"path": [
+								"auth",
+								"oauth2",
+								"v1",
+								"token"
+							]
+						},
+						"description": "POST "
+					},
+					"response": []
+				},
+				{
+					"name": "Step2.POST RFP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1zIA4NfGjq7cQ6Agvgyi9v7pJh5F",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Encoding",
+								"type": "text",
+								"value": "*"
+							},
+							{
+								"key": "Correlation-Id",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{apigee-uid-access-token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestForPayment\": {\n    \"clientDetails\": {\n      \"clientRequestID\": \"TRX-000000377\"\n    },\n    \"payerDetails\": {\n\t  \"name\":\"Test\",\t\n      \"accountNumber\": \"153910130209\",\n      \"routingNumber\": \"123000848\",\n            \"address\": {\n        \"addressLine1\": \"100 Main St\",\n        \"addressLine2\": \"Apt 116\",\n        \"city\": \"Chicago\",\n        \"state\": \"IL\",\n        \"zipCode\": \"60606\",\n        \"country\": \"US\"\n      }\n    },\n    \"payeeDetails\": {\n      \"name\": \"ABC Corp\",\n      \"accountNumber\": \"151700011126\",\n      \"routingNumber\": \"122105155\",\n            \"address\": {\n        \"addressLine1\": \"110 Main St\",\n        \"addressLine2\": \"Apt 116\",\n        \"city\": \"Chicago\",\n        \"state\": \"IL\",\n        \"zipCode\": \"60606\",\n        \"country\": \"US\"\n      }\n    },\n    \"ultimatePayeeDetails\": {\n      \"name\": \"Jig K\",\n      \"identifier\": \"12344232122\",\n      \"address\": {\n        \"addressLine1\": \"120 Main St\",\n        \"addressLine2\": \"Apt 116\",\n        \"city\": \"Chicago\",\n        \"state\": \"IL\",\n        \"zipCode\": \"60606\",\n        \"country\": \"US\"\n      }\n    },\n    \"ultimatePayerDetails\": {\n      \"name\": \"Jip K\",\n      \"identifier\": \"12344232129\",\n      \"address\": {\n        \"addressLine1\": \"110 Main St\",\n        \"addressLine2\": \"Apt 116\",\n        \"city\": \"Chicago\",\n        \"state\": \"IL\",\n        \"zipCode\": \"60606\",\n        \"country\": \"US\"\n      }\n    },\n    \"transactionDetails\": {\n      \"amount\": 21000.00,\n      \"paymentType\": \"INTERMEDIARY\",\n      \"requestedExecutionDateTime\": \"2021-08-26T14:16:00\",\n      \"expiryDateTime\": \"2021-08-27T15:22:00\",\n      \"paymentModificationAllowed\": \"Yes\"\n    },\n    \"remittanceData\": {\n     \n      \"additionalInfo\": \"Unstructured remittance Information\",\n      \"discountDetails\": {\n      \t\"fullAmount\": 50.00,\n      \t\"discountedAmount\": 25.00\n      }\n\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "https://sandbox.usbank.com/money-movement/rtp/v1/requests-for-payment",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"usbank",
+								"com"
+							],
+							"path": [
+								"money-movement",
+								"rtp",
+								"v1",
+								"requests-for-payment"
+							]
+						},
+						"description": "POST "
+					},
+					"response": []
+				},
+				{
+					"name": "Step3.GET RFP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "ODigGIeIHASAjpCaLRTumKHoB3Zb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "*",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apigee-uid-access-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.usbank.com/money-movement/rtp/v1/requests-for-payment/20210929UI07BWE69W8VALIPWB839192050",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"usbank",
+								"com"
+							],
+							"path": [
+								"money-movement",
+								"rtp",
+								"v1",
+								"requests-for-payment",
+								"20210929UI07BWE69W8VALIPWB839192050"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Credit transfer",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "timOGgZI2bBiYJXIN21pHDwfQH8K",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Encoding",
+								"type": "text",
+								"value": "*"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{apigee-uid-access-token}}"
+							},
+							{
+								"key": "Correlation-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"creditTransfer\": {\r\n    \"clientDetails\": {\r\n      \"clientRequestID\": \"TRX-000000377\"\r\n    },\r\n    \"payerDetails\": {\r\n      \"name\": \"Zeal Inc\",\r\n      \"accountNumber\": \"12344232122\",\r\n      \"routingNumber\": \"122105155\",\r\n      \"address\": {\r\n        \"addressLine1\": \"100 Main St\",\r\n        \"addressLine2\": \"Apt 116\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipCode\": \"60606\",\r\n        \"country\": \"US\"\r\n      }\r\n    },\r\n    \"ultimatePayerDetails\": {\r\n      \"name\": \"John D\",\r\n      \"identifier\": \"12344232122\",\r\n      \"address\": {\r\n        \"addressLine1\": \"100 Main St\",\r\n        \"addressLine2\": \"Apt 116\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipCode\": \"60606\",\r\n        \"country\": \"US\"\r\n      }\r\n\r\n    },\r\n    \"payeeDetails\": {\r\n      \"name\": \"ABC Corp\",\r\n      \"accountNumber\": \"asd-344232122\",\r\n      \"routingNumber\": \"091000019\",\r\n      \"address\": {\r\n        \"addressLine1\": \"100 Main St\",\r\n        \"addressLine2\": \"Apt 116\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipCode\": \"60606\",\r\n        \"country\": \"US\"\r\n      }\r\n    },\r\n    \"ultimatePayeeDetails\": {\r\n      \"name\": \"Jim K\",\r\n      \"identifier\": \"12344232122\",\r\n      \"address\": {\r\n        \"addressLine1\": \"100 Main St\",\r\n        \"addressLine2\": \"Apt 116\",\r\n        \"city\": \"Chicago\",\r\n        \"state\": \"IL\",\r\n        \"zipCode\": \"60606\",\r\n        \"country\": \"US\"\r\n      }\r\n    },\r\n    \"transactionDetails\": {\r\n      \"amount\": 100.12,\r\n      \"paymentType\": \"STANDARD\"\r\n    },\r\n    \"remittanceData\": {\r\n      \"remittanceID\": \"20151112INFOABCD\",\r\n      \"remittanceLocationDetails\": {\r\n        \"email\": \"remit@healthcorp.com\",\r\n        \"URI\": \"https://remittances/healthcorp.com\"\r\n      },\r\n      \"additionalInfo\": \"Unstructured remittance Information\"\r\n    }\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "https://sandbox.usbank.com/money-movement/rtp/v1/credit-transfers",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"usbank",
+								"com"
+							],
+							"path": [
+								"money-movement",
+								"rtp",
+								"v1",
+								"credit-transfers"
+							]
+						},
+						"description": "POST "
+					},
+					"response": []
+				},
+				{
+					"name": "GET transaction",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "timOGgZI2bBiYJXIN21pHDwfQH8K",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Encoding",
+								"type": "text",
+								"value": "*"
+							},
+							{
+								"key": "Correlation-Id",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{apigee-uid-access-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://sandbox.usbank.com/money-movement/rtp/v1/credit-transfers/202210211ZZATC618TOZWLGGWG606792154",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"usbank",
+								"com"
+							],
+							"path": [
+								"money-movement",
+								"rtp",
+								"v1",
+								"credit-transfers",
+								"202210211ZZATC618TOZWLGGWG606792154"
+							]
+						},
+						"description": "POST "
+					},
+					"response": []
+				},
+				{
+					"name": "GET RTN eligibility",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "timOGgZI2bBiYJXIN21pHDwfQH8K",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Encoding",
+								"type": "text",
+								"value": "*"
+							},
+							{
+								"key": "Correlation-Id",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{apigee-uid-access-token}}"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.usbank.com/money-movement/rtp/v1/rtp-eligibility-check?routingNumber=211391825",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"usbank",
+								"com"
+							],
+							"path": [
+								"money-movement",
+								"rtp",
+								"v1",
+								"rtp-eligibility-check"
+							],
+							"query": [
+								{
+									"key": "routingNumber",
+									"value": "211391825"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
