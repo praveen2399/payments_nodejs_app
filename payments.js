@@ -16,26 +16,32 @@ let db = new sqlite3.Database("payments.db", (err) => {
 // Create a new issue
 app.post("/issues", (req, res) => {
     console.log(req.body);
-    let custid = req.body.custid;
-    let issue = req.body.issue;
-    let severity = req.body.severity;
-    let amount = req.body.amount;
-    let issuestatus = req.body.issuestatus;
-    let confirmationno = req.body.confirmationno;
+    const data = req.body;
+    let responseList = [];
+    for (let i = 0; i < data.length; i++) {
 
-    db.run("INSERT INTO issues(issue, custid,severity,amount,issuestatus,confirmationno) VALUES (?,?,?,?,?,?)"
-    , [issue, custid, severity, amount, issuestatus, confirmationno], (err) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": {
-                "name": custid,
-                "age": issue
-            }
-        });
+        let custid = data[i].custid;
+        let issue = data[i].issue;
+        let severity = data[i].severity;
+        let amount = data[i].amount;
+        let issuestatus = data[i].issuestatus;
+        let confirmationno = data[i].confirmationno;
+
+        db.run("INSERT INTO issues(issue, custid,severity,amount,issuestatus,confirmationno) VALUES (?,?,?,?,?,?)"
+            , [issue, custid, severity, amount, issuestatus, confirmationno], (err) => {
+                if (err) {
+                    console.log("Failed insertion :", issue);
+                    res.status(400).json({ "error": err.message });
+                    return;
+                }
+                else {
+                    responseList.push({ "name": custid, "issue": issue });
+                }
+            });
+    }
+    res.json({
+        "message": "success",
+        "data": responseList
     });
 });
 
@@ -84,23 +90,25 @@ app.get("/issues/customer/:custid", (req, res) => {
 });
 
 // Update a user
-app.patch("/issues/:issueid", (req, res) => {
-    let issueid = req.params.issueid;
-    let issuestatus = req.body.issuestatus;
-    let confirmationno = req.body.confirmationo;
+app.patch("/issues", (req, res) => {
 
-    db.run("UPDATE issues SET issuestatus = ?, confirmationno = ? WHERE id = ?", [issuestatus, confirmationno, issueid], (err) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": {
-                "issueid": issueid,
-                "issuestatus": issuestatus
+    console.log(req.body);
+    const data = req.body;
+
+    for (let i = 0; i < data.length; i++) {
+        let issueid = data[i].id;
+        let issuestatus = data[i].issuestatus;
+        let confirmationno = data[i].confirmationno;
+        db.run("UPDATE issues SET issuestatus = ?,confirmationno = ? WHERE id = ?", [issuestatus, confirmationno, issueid], (err) => {
+            if (err) {
+                res.status(400).json({ "error": err.message });
+                return;
             }
         });
+    }
+    res.json({
+        "message": "success",
+        "data": []
     });
 });
 
