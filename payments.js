@@ -26,9 +26,10 @@ app.post("/issues", (req, res) => {
         let amount = data[i].amount;
         let issuestatus = data[i].issuestatus;
         let confirmationno = data[i].confirmationno;
+        let selected = data[i].selected;
 
-        db.run("INSERT INTO issues(issue, custid,severity,amount,issuestatus,confirmationno) VALUES (?,?,?,?,?,?)"
-            , [issue, custid, severity, amount, issuestatus, confirmationno], (err) => {
+        db.run("INSERT INTO issues(issue, custid,severity,amount,issuestatus,confirmationno,selected) VALUES (?,?,?,?,?,?,?)"
+            , [issue, custid, severity, amount, issuestatus, confirmationno, selected], (err) => {
                 if (err) {
                     console.log("Failed insertion :", issue);
                     res.status(400).json({ "error": err.message });

@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS issues (
   severity TEXT NOT NULL,
   amount real NOT NULL,
   issuestatus TEXT NOT NULL,
-  confirmationno TEXT  
+  confirmationno TEXT,  
+  selected TEXT
 );
 
 CREATE TABLE IF NOT EXISTS customer(
